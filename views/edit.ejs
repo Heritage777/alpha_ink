@@ -1,19 +1,27 @@
 <%- include('./partials/head.ejs') %>
 <%- include('./partials/nav') %>
 
-<div class="container main-content">
-    <div class="form-container">
+<div class="container main-content edit-blog-wrapper">
+    <div class="form-container edit-blog-container">
+        <div class="form-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+        </div>
+
         <h2 class="form-heading">Edit Blog Post</h2>
+        <p class="form-subheading">Update your story details below</p>
         
-        <form action="/blogs/edit/<%= blog._id %>" method="POST">
+        <form action="/blogs/edit/<%= blog._id %>" method="POST" novalidate>
             <div class="form-group">
                 <label for="title">Blog Title</label>
-                <input type="text" id="title" name="title" value="<%= blog.title %>" required>
+                <input type="text" id="title" name="title" value="<%= blog.title %>" autocomplete="off" required>
             </div>
 
             <div class="form-group">
                 <label for="author">Author</label>
-                <input type="text" id="author" name="author" value="<%= blog.author %>" required>
+                <input type="text" id="author" name="author" value="<%= blog.author %>" autocomplete="name" required>
             </div>
 
             <div class="form-group">
@@ -21,10 +29,12 @@
                 <textarea id="body" name="body" rows="8" required><%= blog.body %></textarea>
             </div>
 
-            <button type="submit" class="btn-submit">Update Blog</button>
+            <button type="submit" class="btn-submit">
+                <span class="button-text">Update Blog</span>
+                <span class="arrow">&rarr;</span>
+            </button>
         </form>
     </div>
 </div>
 
 <%- include('./partials/footer.ejs') %>
-

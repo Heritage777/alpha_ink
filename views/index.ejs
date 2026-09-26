@@ -1,32 +1,287 @@
-<%- include('./partials/head')  %>
-<%- include('./partials/nav')  %>
+<%- include('./partials/head') %>
+<%- include('./partials/nav') %>
 
-<div class="container main-content">
-        <header class="page-header">
-            <h2> Welcome, <%= user.username %>!</h2>
-            <h1>Latest Articles</h1>
-            <p>Thoughts, stories, and ideas on web development.</p>
-        </header>
+<div class="container main-content dashboard-wrapper">
+
+    <!-- Dashboard Header -->
+    <header class="page-header">
+
+        <!-- Logged-in User -->
+        <div class="dashboard-welcome">
+
+            <!-- Profile Avatar + Camera Edit Button -->
+            <div class="dashboard-avatar-wrapper">
+
+                <img
+                    src="<%= user.profilePicture && user.profilePicture.url
+                        ? user.profilePicture.url
+                        : 'https://i.pinimg.com/736x/0b/97/6f/0b976f0a7aa1aa43870e1812eee5a55d.jpg' %>"
+                    alt="<%= user.username %>"
+                    class="dashboard-avatar"
+                >
+
+                <a
+                    href="/profile"
+                    class="avatar-edit-btn"
+                    title="Change profile picture"
+                    aria-label="Change profile picture"
+                >
+                    <!-- Camera SVG Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                        <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0-2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm7-2h-2.17l-1.24-1.35A2 2 0 0 0 14.12 3H9.88a2 2 0 0 0-1.47.65L7.17 5H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm1 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2.55l1.24-1.35a1 1 0 0 1 .74-.35h4.24a1 1 0 0 1 .74.35L16.45 7H19a1 1 0 0 1 1 1v10z"/>
+                    </svg>
+                </a>
+
+            </div>
+
+            <div class="welcome-text">
+
+                <h2>
+                    Welcome back,
+                    <span><%= user.username %></span>
+                </h2>
+
+                <p class="welcome-subtitle">
+                    Your space. Your voice. Your ideas.
+                </p>
+
+            </div>
+
+        </div>
+
+        <h1 class="typewriter-header">
+            <span class="typed-text"></span><span class="cursor"></span>
+        </h1>
+
+    </header>
+
+    <!-- Blog Feed -->
+    <div class="scrollable-feed-container">
 
         <div class="blog-grid">
-            <% if (blogs.length > 0) { %>
+
+            <% if (blogs && blogs.length > 0) { %>
+
                 <% blogs.forEach(blog => { %>
-                    <div class="blog-card">
-                        <div class="card-body">
-                            <h3 class="card-title"><%= blog.title %></h3>
-                            <h6 class="card-author">By <%= blog.author %></h6>
-                            <p class="card-text"><%= blog.snippet %></p>
-                            <p class="blog-date">Published on: <%= blog.createdAt.toDateString() %></p>
-                            <a href="/blogs/<%= blog.id %>" class="btn-read">Read More</a>
+
+                    <article class="blog-card">
+
+                        <!-- Blog Image -->
+                        <div class="blog-image">
+
+                            <img
+                                src="<%= blog.image && blog.image.url
+                                    ? blog.image.url
+                                    : 'https://i.pinimg.com/1200x/6d/f3/c0/6df3c08ce44558439ac6787b68553eb3.jpg' %>"
+                                alt="<%= blog.title %>"
+                                loading="lazy"
+                            >
+
                         </div>
-                    </div>
+
+                        <!-- Blog Information -->
+                        <div class="card-body">
+
+                            <!-- TITLE -->
+                            <div class="card-field">
+
+                                <span class="field-label">
+                                    Title:
+                                </span>
+
+                                <h3 class="card-title">
+                                    <%= blog.title %>
+                                </h3>
+
+                            </div>
+
+                            <!-- AUTHOR -->
+                            <div class="card-field">
+
+                                <span class="field-label">
+                                    Author:
+                                </span>
+
+                                <div class="card-author-info">
+
+                                    <img
+                                        src="<%= blog.owner &&
+                                            blog.owner.profilePicture &&
+                                            blog.owner.profilePicture.url
+                                                ? blog.owner.profilePicture.url
+                                                : 'https://i.pinimg.com/736x/c8/69/6d/c8696d617c52cb74432cda04bde12fdd.jpg' %>"
+                                        alt="<%= blog.owner
+                                            ? blog.owner.username
+                                            : blog.author %>"
+                                        class="blog-author-avatar"
+                                        loading="lazy"
+                                    >
+
+                                    <span class="card-author">
+                                        <%= blog.owner
+                                            ? blog.owner.username
+                                            : blog.author %>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- SNIPPET -->
+                            <div class="card-field">
+
+                                <span class="field-label">
+                                    Snippet:
+                                </span>
+
+                                <p class="card-text">
+                                    <%= blog.snippet %>
+                                </p>
+
+                            </div>
+
+                            <!-- DATE + STATS -->
+                            <div class="card-meta-bottom">
+
+                                <span class="blog-date">
+                                    <%= blog.createdAt
+                                        ? blog.createdAt.toDateString()
+                                        : 'Date unavailable' %>
+                                </span>
+
+                                <div class="blog-stats">
+
+                                    <span>
+                                        ❤️
+                                        <%= blog.likes
+                                            ? blog.likes.length
+                                            : 0 %>
+                                    </span>
+
+                                    <span>
+                                        💬
+                                        <%= commentCounts &&
+                                            commentCounts[blog._id.toString()]
+                                                ? commentCounts[blog._id.toString()]
+                                                : 0 %>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <!-- READ ARTICLE -->
+                            <a
+                                href="/blogs/<%= blog._id %>"
+                                class="btn-read"
+                            >
+                                Read Article &rarr;
+                            </a>
+
+                        </div>
+
+                    </article>
+
                 <% }) %>
+
             <% } else { %>
-                <div class="no-blogs">
-                    <p>No blog posts available at the moment.</p>
+
+                <!-- Empty State -->
+                <div class="no-blogs-card">
+
+                    <h3>
+                        No articles yet
+                    </h3>
+
+                    <p>
+                        No articles have been published on the
+                        network yet. Be the first to share your ideas.
+                    </p>
+
+                    <a href="/create" class="btn-primary">
+                        Create First Post
+                    </a>
+
                 </div>
+
             <% } %>
+
         </div>
+
+    </div>
+
 </div>
 
-<%- include('./partials/footer')  %>
+<%- include('./partials/footer') %>
+
+<style>
+  /* Typewriter Header Styles */
+  .typewriter-header {
+    min-height: 1.4em; /* Prevents vertical layout shift during deletion */
+    display: inline-block;
+  }
+
+  .typed-text {
+    font-weight: inherit;
+  }
+
+  .cursor {
+    display: inline-block;
+    background-color: currentColor;
+    margin-left: 2px;
+    width: 3px;
+    animation: blink 0.8s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>
+
+<script>
+  // ==========================================
+  // DASHBOARD TYPEWRITER EFFECT SCRIPT
+  // ==========================================
+  document.addEventListener("DOMContentLoaded", () => {
+    const typedTextSpan = document.querySelector(".page-header .typed-text");
+    
+    const textArray = [
+      "Share your thoughts...", 
+      "Display your genius...", 
+      "Craft your ideas."
+    ];
+    
+    const typingDelay = 60;
+    const erasingDelay = 35;
+    const newTextDelay = 1500; // Pause time before erasing
+    let textArrayIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+      if (charIndex < textArray[textArrayIndex].length) {
+        typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, typingDelay);
+      } else {
+        setTimeout(erase, newTextDelay);
+      }
+    }
+
+    function erase() {
+      if (charIndex > 0) {
+        typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, erasingDelay);
+      } else {
+        textArrayIndex++;
+        if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+        setTimeout(type, typingDelay + 400);
+      }
+    }
+
+    if (textArray.length && typedTextSpan) {
+      setTimeout(type, newTextDelay + 250);
+    }
+  });
+</script>

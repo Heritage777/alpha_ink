@@ -4,4 +4,16 @@
     <title>My Node Blog</title>
     <!-- Link to your custom CSS stylesheet -->
     <link rel="stylesheet" href="/style.css">
+    <script>
+    // Immediate execution to prevent theme flash on load
+    (function() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark'); // Optional helper if needed, but we target body:
+            window.addEventListener('DOMContentLoaded', () => {
+                document.body.classList.add('dark');
+            });
+        }
+    })();
+</script>
 </head>

@@ -5,7 +5,8 @@
 <!-- Main Content Container (Single Top-to-Bottom Flow) -->
 <div class="container main-content about-page-wrapper">
     <header class="page-header">
-        <h1>About Heritage-Blog</h1>
+        <div class="about-badge">Platform Overview</div>
+        <h1>About Alpα_ink</h1>
         <p>A production-ready, full-stack server-rendered blogging platform built from scratch.</p>
     </header>
 
@@ -13,44 +14,49 @@
         <section class="about-section">
             <h3>Project Overview & Vision</h3>
             <p>
-                <strong>Heritage-Blog</strong> is a robust, custom-built web application engineered using Node.js, Express, and EJS. Designed as a complete full-stack portfolio project, it moves away from managed BaaS solutions to maintain absolute control over server-side architecture, custom routing, middleware layers, database schemas, and data security workflows.
+                <strong>Alpα_ink</strong> is a robust, custom-built web application engineered using Node.js, Express, and EJS. Designed as a complete full-stack portfolio project, it moves away from managed BaaS solutions to maintain absolute control over server-side architecture, custom routing, middleware layers, database schemas, and data security workflows.
             </p>
         </section>
 
         <section class="about-section">
             <h3>Core Features Implemented</h3>
             
-            <div class="feature-category">
-                <h4>1. Authentication & Security</h4>
-                <ul class="tech-list">
-                    <li><strong>Secure Auth:</strong> JWT-based authentication stored securely in HTTP-only cookies with protected route middleware.</li>
-                    <li><strong>Credential Protection:</strong> Password hashing via bcrypt and unique username/email validation.</li>
-                    <li><strong>Account Verification & Recovery:</strong> Email verification using OTPs sent via Nodemailer (with 5-minute expiration), alongside complete forgot-password and password-reset workflows.</li>
-                </ul>
-            </div>
+            <div class="feature-grid">
+                <div class="feature-category">
+                    <div class="feature-icon">🔒</div>
+                    <h4>1. Authentication & Security</h4>
+                    <ul class="tech-list">
+                        <li><strong>Secure Auth:</strong> JWT-based authentication stored securely in HTTP-only cookies with protected route middleware.</li>
+                        <li><strong>Credential Protection:</strong> Password hashing via bcrypt and unique username/email validation.</li>
+                        <li><strong>Account Verification:</strong> Email verification using OTPs sent via Nodemailer with token expiration.</li>
+                    </ul>
+                </div>
 
-            <div class="feature-category">
-                <h4>2. Profile & Media Management</h4>
-                <ul class="tech-list">
-                    <li><strong>Cloud Storage Integration:</strong> Profile picture uploads managed via Multer and stored remotely on Cloudinary, with public IDs tracked in MongoDB.</li>
-                    <li><strong>Lifecycle Cleanup:</strong> Automatic removal of temporary server-side files post-upload.</li>
-                </ul>
-            </div>
+                <div class="feature-category">
+                    <div class="feature-icon">🖼️</div>
+                    <h4>2. Profile & Media Management</h4>
+                    <ul class="tech-list">
+                        <li><strong>Cloud Storage:</strong> Profile picture uploads managed via Multer and stored remotely on Cloudinary, tracked in MongoDB.</li>
+                        <li><strong>Lifecycle Cleanup:</strong> Automatic removal of temporary server-side files post-upload.</li>
+                    </ul>
+                </div>
 
-            <div class="feature-category">
-                <h4>3. Blog Post Lifecycle (CRUD)</h4>
-                <ul class="tech-list">
-                    <li><strong>Ownership-Protected Operations:</strong> Users can create, view, edit, and delete their own blog posts, backed by strict ownership checks linked through the User model.</li>
-                </ul>
-            </div>
+                <div class="feature-category">
+                    <div class="feature-icon">✍️</div>
+                    <h4>3. Blog Post Lifecycle (CRUD)</h4>
+                    <ul class="tech-list">
+                        <li><strong>Protected Operations:</strong> Users can create, view, edit, and delete their own blog posts backed by strict ownership validation.</li>
+                    </ul>
+                </div>
 
-            <div class="feature-category">
-                <h4>4. Architecture & Tech Stack</h4>
-                <ul class="tech-list">
-                    <li><strong>Server & Templating:</strong> Express.js routing engine paired with dynamic EJS server-side rendering.</li>
-                    <li><strong>Database:</strong> MongoDB Atlas integration managed through structured Mongoose schemas (Users, Blogs, OTPs).</li>
-                    <li><strong>Asset Management:</strong> Dedicated static asset serving, custom dark-mode glassmorphism styling, and responsive layout scaling.</li>
-                </ul>
+                <div class="feature-category">
+                    <div class="feature-icon">⚡</div>
+                    <h4>4. Architecture & Tech Stack</h4>
+                    <ul class="tech-list">
+                        <li><strong>Server & Engine:</strong> Express.js routing engine paired with dynamic EJS server-side rendering.</li>
+                        <li><strong>Database:</strong> MongoDB Atlas managed through structured Mongoose models.</li>
+                    </ul>
+                </div>
             </div>
         </section>
     </div>
@@ -58,6 +64,3 @@
 
 <!-- Footer -->
 <%- include('./partials/footer.ejs') %>
-
-</body>
-</html>

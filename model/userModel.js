@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     resetOtpExpires: { type: Date },
     username: { type: String, trim: true, required: [true, 'please enter a username'], unique: true },
     profilePicture: { url: String, public_id: String }, // url means the location of the image in cloudinary and public_id is the unique identifier for the image in cloudinary
-})
+}, {timestamps: true})
 
 userSchema.pre('save', async function (){
     if (this.isModified('password')) {

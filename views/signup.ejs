@@ -5,8 +5,9 @@
     <!-- Left Side: Ambient Branding Panel -->
     <div class="auth-sidebar">
         <div class="brand-content">
+            <div class="brand-badge">Alpha_Ink Portal</div>
             <h1>Join Our<br>Community</h1>
-            <p>Create an account to start sharing your stories<br>and engaging with other writers.</p>
+            <p>Create an account to start sharing your stories and engaging with other writers.</p>
         </div>
     </div>
 
@@ -14,33 +15,39 @@
     <div class="auth-main">
         <div class="form-container">
             <div class="form-header-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
             </div>
+            
             <h2 class="form-heading">Sign Up</h2>
             <p class="form-subheading">Create your account to get started</p>
 
-            <form action="/signup" method="POST">
+            <form action="/signup" method="POST" novalidate>
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" name="username" id="username" placeholder="Enter your username" required />
+                    <input type="text" name="username" id="username" placeholder="Enter your username" autocomplete="username" required />
                     <p class="error username"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" name="email" id="email" placeholder="you@example.com" required />
+                    <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email" required />
                     <p class="error email"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="••••••••" required />
+                    <input type="password" name="password" id="password" placeholder="••••••••" autocomplete="new-password" required />
                     <p class="error password"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="passwordConfirm">Confirm Password</label>
-                    <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="••••••••" required />
+                    <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="••••••••" autocomplete="new-password" required />
                     <p class="error passwordConfirm"></p>
                 </div>
 
@@ -75,6 +82,7 @@
         emailError.textContent = ''
         passwordError.textContent = ''
         passwordConfirmError.textContent = ''
+        if (usernameError) usernameError.textContent = ''
 
         // Loading state
         submitButton.disabled = true
@@ -99,6 +107,9 @@
                 emailError.textContent = data.errors.email || ''
                 passwordError.textContent = data.errors.password || ''
                 passwordConfirmError.textContent = data.errors.passwordConfirm || ''
+                if (usernameError && data.errors.username) {
+                    usernameError.textContent = data.errors.username
+                }
             }
 
             if (data.success) {

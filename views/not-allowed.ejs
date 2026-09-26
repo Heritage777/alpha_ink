@@ -1,18 +1,24 @@
 <%- include('partials/head') %>
 <%- include('partials/nav') %>
 
-<div class="container">
-    <div class="not-allowed-container">
-        <div class="not-allowed-icon">403</div>
+<div class="container main-content not-allowed-wrapper">
+    <div class="error-container not-allowed-card">
+        <div class="error-icon-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+        </div>
 
-        <h1>Access Denied</h1>
-
-        <p>
+        <div class="error-code">403</div>
+        <h1 class="form-heading">Access Denied</h1>
+        <p class="form-subheading">
             You don't have permission to perform this action on this blog.
         </p>
 
-        <a href="/blogs" class="not-allowed-btn">
-            Return to Blogs
+        <a href="/blogs" class="btn-submit btn-home-link not-allowed-btn">
+            <span>Return to Blogs</span>
+            <span class="arrow">&rarr;</span>
         </a>
     </div>
 </div>

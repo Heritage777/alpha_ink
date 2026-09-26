@@ -1,36 +1,83 @@
-<%- include('partials/head') %>
-<%- include('partials/nav') %>
+<%- include('./partials/head') %>
+<%- include('./partials/nav') %>
 
-    <div class="container main-content">
-        <header class="page-header">
-            <h1>Create a New Post</h1>
-            <p>Share your thoughts, stories, and ideas with the world.</p>
-        </header>
-
-        <div class="form-container">
-            <form action="/blogs" method="POST">
-                 <div class="form-group">
-                    <label for="title">Blog Title</label>
-                    <input type="text" id="title" name="title" required placeholder="Enter a catchy title...">
-                </div>
-
-                <div class="form-group">
-                    <label for="author">Author</label>
-                    <input type="text" id="author" name="author" required placeholder="Your name or handle...">
-                </div>
-
-                <div class="form-group">
-                    <label for="snippet">Blog Snippet</label>
-                    <input type="text" id="snippet" name="snippet" required placeholder="A brief summary of your post...">
-                </div>
-
-                <div class="form-group">
-                    <label for="body">Blog Body</label>
-                    <textarea id="body" name="body" rows="6" required placeholder="Write your full article content here..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit">Publish Post</button>
-            </form>
+<div class="container main-content create-blog-wrapper">
+    <div class="form-container create-blog-container">
+        <div class="form-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
         </div>
+
+        <h1 class="form-heading">Create a New Blog</h1>
+        <p class="form-subheading">Share your thoughts and stories with the community</p>
+
+        <form action="/blogs" method="POST" enctype="multipart/form-data" novalidate>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Enter blog title"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    placeholder="Enter author name"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="snippet">Snippet</label>
+                <textarea
+                    id="snippet"
+                    name="snippet"
+                    rows="2"
+                    placeholder="Brief summary of your blog post..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="body">Body</label>
+                <textarea
+                    id="body"
+                    name="body"
+                    rows="6"
+                    placeholder="Write your full blog content here..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Blog Image (optional)</label>
+                <div class="file-input-wrapper">
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span class="button-text">Publish Blog</span>
+                <span class="arrow">&rarr;</span>
+            </button>
+        </form>
     </div>
-<%- include('partials/footer') %>
+</div>
+
+<%- include('./partials/footer') %>

@@ -1,11 +1,13 @@
-<%- include('partials/head') %> <%- include('partials/nav') %>
+<%- include('partials/head') %> 
+<%- include('partials/nav') %>
 
 <div class="auth-wrapper">
   <!-- Left Side: Ambient Branding Panel -->
   <div class="auth-sidebar">
     <div class="brand-content">
+      <div class="brand-badge">Alpha_Ink Portal</div>
       <h1>Welcome<br />Back</h1>
-      <p>Glad to see you again.<br />Let's continue where you left off.</p>
+      <p>Glad to see you again. Let's continue where you left off crafting your ideas.</p>
     </div>
   </div>
 
@@ -24,10 +26,12 @@
           <path d="M12 2L2 7l10 5 10-5-10-5-10 5v10l10 5 10-5" />
         </svg>
       </div>
-      <h2 class="form-heading">Login</h2>
-      <p class="form-subheading">Login to your account to continue</p>
 
-      <form action="/login" method="POST" data-loading-text="Logging in...">
+      <h2 class="form-heading">Login</h2>
+      <p class="form-subheading">Enter your credentials to access your account</p>
+
+      <form action="/login" method="POST" data-loading-text="Logging in..." novalidate>
+        
         <div class="form-group">
           <label for="email">Email Address</label>
           <input
@@ -35,6 +39,7 @@
             name="email"
             id="email"
             placeholder="you@example.com"
+            autocomplete="email"
             required
           />
           <p class="error email"></p>
@@ -48,6 +53,7 @@
               name="password"
               id="password"
               placeholder="••••••••"
+              autocomplete="current-password"
               required
             />
           </div>
@@ -67,6 +73,7 @@
         <div class="auth-footer-text">
           Don't have an account? <a href="/signup">Sign up</a>
         </div>
+
       </form>
     </div>
   </div>

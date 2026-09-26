@@ -1,11 +1,19 @@
-<footer class="site-footer">
-    <div class="container footer-container">
-        <div class="footer-glow-line"></div>
-        <p>&copy; 2026 Heritage-Blog. A fully server side rendered app.</p>
-        <div class="footer-links">
-            <a href="/privacy">Privacy</a>
-            <a href="/terms">Terms</a>
-            <a href="/about">About</a>
+<!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    Alp<span class="logo-accent">α</span>_<span class="logo-ink">i</span>nk
+                </a>
+            </div>
+
+            <div class="footer-meta">
+                <p>&copy; <%= new Date().getFullYear() %> Alpα_ink. All rights reserved.</p>
+                <p class="footer-tech">Built with Node.js &middot; Express &middot; EJS &middot; MongoDB</p>
+            </div>
         </div>
-    </div>
-</footer>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,45 +1,185 @@
 <%- include('./partials/head') %>
 <%- include('./partials/nav') %>
 
-    <!-- Main Content Container -->
-    <div class="container main-content">
-        <div class="details-card">
-            <h1 class="details-title"><%= blog.title %></h1>
-            
-            <div class="blog-meta">
-                <p class="card-author">By <%= blog.author %></p>
-                <p class="blog-date">Published on: <%= blog.createdAt ? blog.createdAt.toDateString() : 'Date unavailable' %></p>
+<!-- Main Content Container -->
+<div class="container main-content details-page-wrapper">
+    <div class="details-card">
+        <h1 class="details-title"><%= blog.title %></h1>
+
+        <!-- BLOG AUTHOR -->
+        <div class="blog-meta">
+            <div class="blog-author">
+                <img
+                    src="<%= blog.owner && blog.owner.profilePicture && blog.owner.profilePicture.url
+                        ? blog.owner.profilePicture.url
+                        : 'https://i.pinimg.com/736x/b8/d4/9b/b8d49b88ebb79c9187d82cc8f0fe4e3a.jpg' %>"
+                    alt="<%= blog.owner ? blog.owner.username : 'Author' %>"
+                    class="author-avatar"
+                >
+                <p class="card-author">
+                    By <strong><%= blog.owner ? blog.owner.username : blog.author %></strong>
+                </p>
             </div>
 
-            <div class="blog-body">
-                <p><%= blog.body %></p>
-            </div>
-
-           <div class="details-actions">
-            <a href="/blogs/edit/<%= blog._id %>" class="btn-edit">Edit Post</a>
-            <a class="btn-delete" data-doc="<%= blog._id %>">Delete Post</a>
+            <p class="blog-date">
+                Published on:
+                <%= blog.createdAt ? blog.createdAt.toDateString() : 'Date unavailable' %>
+            </p>
         </div>
+
+        <!-- BLOG BODY -->
+        <div class="blog-body">
+            <p><%= blog.body %></p>
+        </div>
+
+        <!-- LIKE SECTION -->
+        <div class="like-section">
+            <button id="like-btn" type="button" class="btn-like">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="<%= userLiked ? 'currentColor' : 'none' %>" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <span id="like-text">
+                    <%= userLiked ? 'Unlike' : 'Like' %>
+                </span>
+                <span id="like-count" class="like-badge">
+                    <%= blog.likes ? blog.likes.length : 0 %>
+                </span>
+            </button>
+        </div>
+
+        <!-- COMMENTS SECTION -->
+        <div class="comments-section">
+            <h2>Comments</h2>
+
+            <form id="comment-form">
+                <textarea
+                    id="comment-text"
+                    placeholder="Write a comment..."
+                    rows="3"
+                    required
+                ></textarea>
+                <button type="submit" class="btn-submit btn-comment-submit">
+                    Post Comment
+                </button>
+            </form>
+
+            <div id="comments-list">
+                <% if (comments.length > 0) { %>
+                    <% comments.forEach(comment => { %>
+                        <div class="comment">
+                            <div class="comment-user">
+                                <img
+                                    src="<%= comment.user && comment.user.profilePicture && comment.user.profilePicture.url
+                                        ? comment.user.profilePicture.url
+                                        : 'https://i.pinimg.com/736x/06/8a/e2/068ae2493902c869b6190b9d772ac602.jpg' %>"
+                                    alt="<%= comment.user ? comment.user.username : 'User' %>"
+                                    class="comment-avatar"
+                                >
+                                <strong>
+                                    <%= comment.user ? comment.user.username : 'Unknown User' %>
+                                </strong>
+                            </div>
+
+                            <p class="comment-text"><%= comment.text %></p>
+
+                            <small class="comment-date">
+                                <%= comment.createdAt.toLocaleString() %>
+                            </small>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- BLOG ACTIONS -->
+        <div class="details-actions">
+            <a href="/blogs/edit/<%= blog._id %>" class="btn-edit">
+                Edit Post
+            </a>
+            <a class="btn-delete" data-doc="<%= blog._id %>">
+                Delete Post
+            </a>
         </div>
     </div>
+</div>
 
-    <%- include('./partials/footer') %>
+<%- include('./partials/footer') %>
 
+<script>
+    // LIKE / UNLIKE
+    const likeButton = document.getElementById('like-btn')
+    const likeText = document.getElementById('like-text')
+    const likeCount = document.getElementById('like-count')
 
-    <script>
-        const deleteButton = document.querySelector('.btn-delete')
-            deleteButton.addEventListener('click', async (e)=>{
-            const endpoint =  `/blogs/${deleteButton.dataset.doc}`
-
-            try {
-            const response = await fetch(endpoint, {
-                method: 'DELETE'
-            })
+    likeButton.addEventListener('click', async () => {
+        try {
+            const response = await fetch(
+                '/blogs/<%= blog._id %>/like',
+                {
+                    method: 'POST'
+                }
+            )
             const data = await response.json()
-            alert(`${data.title} has been deleted successfully.`)
-            window.location.href = data.redirect;
-            } catch (err) {
-            console.log(err);
-        }   
-        })
+            if (data.error) {
+                console.log(data.error)
+                return
+            }
+            likeCount.textContent = data.likes
+            likeText.textContent = data.liked ? 'Unlike' : 'Like'
+        } catch (error) {
+            console.log(error)
+        }
+    })
 
-    </script>
+    // POST COMMENT
+    const commentForm = document.getElementById('comment-form')
+    const commentText = document.getElementById('comment-text')
+
+    commentForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const text = commentText.value.trim()
+        if (!text) {
+            return
+        }
+        try {
+            const response = await fetch(
+                '/blogs/<%= blog._id %>/comments',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text })
+                }
+            )
+            const data = await response.json()
+            if (data.error) {
+                console.log(data.error)
+                return
+            }
+            location.reload()
+        } catch (error) {
+            console.log(error)
+        }
+    })
+
+    // DELETE BLOG
+    const deleteButton = document.querySelector('.btn-delete')
+    if (deleteButton) {
+        deleteButton.addEventListener('click', async () => {
+            const endpoint = `/blogs/${deleteButton.dataset.doc}`
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                const data = await response.json()
+                alert(`${data.title} has been deleted successfully.`)
+                window.location.href = data.redirect
+            } catch (err) {
+                console.log(err)
+            }
+        })
+    }
+</script>

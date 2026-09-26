@@ -2,17 +2,26 @@
 <%- include('./partials/nav.ejs') %>
 
     <!-- Main Content Container -->
-    <div class="container main-content">
+    <div class="container main-content error-wrapper">
         <div class="error-container">
+            <div class="error-icon-badge">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            
             <div class="error-code">404</div>
-            <h2>Oops, that page doesn't exist</h2>
-            <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-            <a href="/blogs" class="btn-home">Back to Home</a>
+            <h2 class="form-heading">Oops, that page doesn't exist</h2>
+            <p class="form-subheading">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+            
+            <a href="/blogs" class="btn-submit btn-home-link">
+                <span>Back to Home</span>
+                <span class="arrow">&rarr;</span>
+            </a>
         </div>
     </div>
 
     <!-- Footer -->
     <%- include('./partials/footer.ejs') %>
-
-</body>
-</html>

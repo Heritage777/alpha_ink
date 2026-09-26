@@ -1,36 +1,52 @@
 <%- include('partials/head') %>
 <%- include('partials/nav') %>
 
-<div class="container">
-    <div class="verify-container">
-        <h1>Verify Your Email</h1>
-        <p>Enter the 6-digit OTP sent to your email.</p>
+<div class="container main-content verify-wrapper">
+    <div class="form-container verify-card">
+        <div class="form-header-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        </div>
 
-        <form>
+        <h2 class="form-heading">Verify Your Email</h2>
+        <p class="form-subheading">Enter the 6-digit OTP sent to your email.</p>
+
+        <form novalidate>
             <!-- Email -->
-            <input class="verify-email-input" type="email" name="email" placeholder="Enter your email" required>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="verify-email-input" type="email" name="email" id="email" placeholder="Enter your email" autocomplete="email" required>
+            </div>
 
             <!-- OTP -->
-            <div class="otp-container">
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
-                <input class="otp-input" type="text" maxlength="1" inputmode="numeric" required>
+            <div class="form-group">
+                <label>OTP Verification Code</label>
+                <div class="otp-container">
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" required>
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" required>
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" required>
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" required>
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" required>
+                    <input class="otp-input" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" required>
+                </div>
             </div>
 
             <!-- Verify -->
-            <button class="verify-btn" type="submit">Verify Email</button>
+            <button class="verify-btn btn-submit" type="submit">
+                <span class="button-text">Verify Email</span>
+                <span class="arrow">&rarr;</span>
+            </button>
 
-            <p class="verify-error"></p>
+            <p class="error verify-error"></p>
 
-            <!-- Resend -->
-            <button type="button" class="resend-btn" disabled>Resend OTP</button>
+            <!-- Resend & Timers -->
+            <div class="resend-action-wrapper">
+                <button type="button" class="resend-btn" disabled>Resend OTP</button>
+            </div>
 
             <p class="resend-message"></p>
-
-            <!-- Countdown -->
             <p class="otp-countdown"></p>
         </form>
     </div>
