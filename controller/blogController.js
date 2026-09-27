@@ -9,36 +9,96 @@ const blog_landing = (req, res) => {
 
 const blog_homepage = async (req, res) => {
     try {
-        const blogs = await Blog.find()
-    .populate('owner', 'username profilePicture')
-    .sort({ createdAt: -1 })
 
-        const comments = await Comment.aggregate([
-            {
-                $group: {
-                    _id: '$blog',
-                    count: { $sum: 1 }
-                }
-            }
-        ])
+        // ==========================================
+        // GET BLOGS
+        // ==========================================
+
+        const page =
+            parseInt(req.query.page) || 1
+
+        const limit = 6
+
+        const skip =
+            (page - 1) * limit
+
+
+        const blogs = await Blog.find()
+            .populate(
+                'owner',
+                'username profilePicture'
+            )
+            .sort({
+                createdAt: -1
+            })
+            .skip(skip)
+            .limit(limit)
+
+
+        // ==========================================
+        // TOTAL BLOGS
+        // ==========================================
+
+        const totalBlogs =
+            await Blog.countDocuments()
+
+        const totalPages =
+            Math.ceil(totalBlogs / limit)
+
+        const hasNextPage =
+            page < totalPages
+
+
+        // ==========================================
+        // COMMENT COUNTS
+        // ==========================================
 
         const commentCounts = {}
 
-        comments.forEach(comment => {
-            commentCounts[comment._id.toString()] = comment.count
-        })
+        for (const blog of blogs) {
+
+            const count =
+                await Comment.countDocuments({
+                    blog: blog._id
+                })
+
+            commentCounts[
+                blog._id.toString()
+            ] = count
+
+        }
+
+
+        // ==========================================
+        // RENDER
+        // ==========================================
 
         res.render('index', {
-            blogs: blogs,
-            commentCounts: commentCounts
+
+            blogs,
+
+            // Get the logged-in user from checkUser
+            user: res.locals.user,
+
+            commentCounts,
+
+            currentPage: page,
+
+            totalPages,
+
+            hasNextPage
+
         })
 
+
     } catch (err) {
+
         console.log(err)
-        res.status(500).send('Could not fetch blogs from the database.')
+
+        res.status(500).render('404')
+
     }
 }
-
 const blog_details = async (req, res) => {
     const id = req.params.id
 

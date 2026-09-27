@@ -27,9 +27,23 @@
                     aria-label="Change profile picture"
                 >
                     <!-- Camera SVG Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                        <path d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0-2a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm7-2h-2.17l-1.24-1.35A2 2 0 0 0 14.12 3H9.88a2 2 0 0 0-1.47.65L7.17 5H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3zm1 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2.55l1.24-1.35a1 1 0 0 1 .74-.35h4.24a1 1 0 0 1 .74.35L16.45 7H19a1 1 0 0 1 1 1v10z"/>
-                    </svg>
+                   <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+    <path d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a48 48 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.19 2.19 0 0 0-1.736-1.039 49 49 0 0 0-5.232 0 2.19 2.19 0 0 0-1.736 1.039z"/>
+    
+    <path d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/>
+    
+    <path d="M18.75 10.5h.008v.008h-.008z"/>
+</svg>
                 </a>
 
             </div>
@@ -50,10 +64,12 @@
         </div>
 
         <h1 class="typewriter-header">
-            <span class="typed-text"></span><span class="cursor"></span>
+            <span class="typed-text"></span>
+            <span class="cursor"></span>
         </h1>
 
     </header>
+
 
     <!-- Blog Feed -->
     <div class="scrollable-feed-container">
@@ -79,6 +95,7 @@
 
                         </div>
 
+
                         <!-- Blog Information -->
                         <div class="card-body">
 
@@ -94,6 +111,7 @@
                                 </h3>
 
                             </div>
+
 
                             <!-- AUTHOR -->
                             <div class="card-field">
@@ -127,6 +145,7 @@
 
                             </div>
 
+
                             <!-- SNIPPET -->
                             <div class="card-field">
 
@@ -140,6 +159,7 @@
 
                             </div>
 
+
                             <!-- DATE + STATS -->
                             <div class="card-meta-bottom">
 
@@ -151,13 +171,19 @@
 
                                 <div class="blog-stats">
 
-                                    <span>
+                                    <!-- LIKE COUNT -->
+                                    <span
+                                        class="blog-like-count"
+                                        data-blog-id="<%= blog._id %>"
+                                    >
                                         ❤️
                                         <%= blog.likes
                                             ? blog.likes.length
                                             : 0 %>
                                     </span>
 
+
+                                    <!-- COMMENT COUNT -->
                                     <span>
                                         💬
                                         <%= commentCounts &&
@@ -169,6 +195,7 @@
                                 </div>
 
                             </div>
+
 
                             <!-- READ ARTICLE -->
                             <a
@@ -184,6 +211,7 @@
 
                 <% }) %>
 
+
             <% } else { %>
 
                 <!-- Empty State -->
@@ -198,7 +226,10 @@
                         network yet. Be the first to share your ideas.
                     </p>
 
-                    <a href="/create" class="btn-primary">
+                    <a
+                        href="/create"
+                        class="btn-primary"
+                    >
                         Create First Post
                     </a>
 
@@ -210,78 +241,211 @@
 
     </div>
 
+    <!-- PAGINATION -->
+    <% if (hasNextPage) { %>
+
+        <div class="pagination-container">
+
+            <a
+                href="/blogs?page=<%= currentPage + 1 %>"
+                class="btn-view-more"
+            >
+                View More Articles
+                <span>&rarr;</span>
+            </a>
+
+        </div>
+
+    <% } %>
 </div>
+
 
 <%- include('./partials/footer') %>
 
+
 <style>
-  /* Typewriter Header Styles */
-  .typewriter-header {
-    min-height: 1.4em; /* Prevents vertical layout shift during deletion */
-    display: inline-block;
-  }
+    /* Typewriter Header Styles */
 
-  .typed-text {
-    font-weight: inherit;
-  }
+    .typewriter-header {
+        min-height: 1.4em;
+        display: inline-block;
+    }
 
-  .cursor {
-    display: inline-block;
-    background-color: currentColor;
-    margin-left: 2px;
-    width: 3px;
-    animation: blink 0.8s infinite;
-  }
+    .typed-text {
+        font-weight: inherit;
+    }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
+    .cursor {
+        display: inline-block;
+        background-color: currentColor;
+        margin-left: 2px;
+        width: 3px;
+        animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+    }
 </style>
 
+
 <script>
-  // ==========================================
-  // DASHBOARD TYPEWRITER EFFECT SCRIPT
-  // ==========================================
-  document.addEventListener("DOMContentLoaded", () => {
-    const typedTextSpan = document.querySelector(".page-header .typed-text");
-    
-    const textArray = [
-      "Share your thoughts...", 
-      "Display your genius...", 
-      "Craft your ideas."
-    ];
-    
-    const typingDelay = 60;
-    const erasingDelay = 35;
-    const newTextDelay = 1500; // Pause time before erasing
-    let textArrayIndex = 0;
-    let charIndex = 0;
 
-    function type() {
-      if (charIndex < textArray[textArrayIndex].length) {
-        typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
-        charIndex++;
-        setTimeout(type, typingDelay);
-      } else {
-        setTimeout(erase, newTextDelay);
-      }
+    // ==========================================
+    // DASHBOARD TYPEWRITER EFFECT SCRIPT
+    // ==========================================
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const typedTextSpan =
+            document.querySelector(".page-header .typed-text")
+
+        const textArray = [
+            "Share your thoughts...",
+            "Display your genius...",
+            "Craft your ideas."
+        ]
+
+        const typingDelay = 60
+        const erasingDelay = 35
+        const newTextDelay = 1500
+
+        let textArrayIndex = 0
+        let charIndex = 0
+
+
+        function type() {
+
+            if (charIndex < textArray[textArrayIndex].length) {
+
+                typedTextSpan.textContent +=
+                    textArray[textArrayIndex].charAt(charIndex)
+
+                charIndex++
+
+                setTimeout(type, typingDelay)
+
+            } else {
+
+                setTimeout(erase, newTextDelay)
+
+            }
+        }
+
+
+        function erase() {
+
+            if (charIndex > 0) {
+
+                typedTextSpan.textContent =
+                    textArray[textArrayIndex].substring(
+                        0,
+                        charIndex - 1
+                    )
+
+                charIndex--
+
+                setTimeout(erase, erasingDelay)
+
+            } else {
+
+                textArrayIndex++
+
+                if (textArrayIndex >= textArray.length) {
+                    textArrayIndex = 0
+                }
+
+                setTimeout(type, typingDelay + 400)
+
+            }
+        }
+
+
+        if (textArray.length && typedTextSpan) {
+
+            setTimeout(
+                type,
+                newTextDelay + 250
+            )
+
+        }
+
+    })
+
+
+    // ==========================================
+    // UPDATE LIKE COUNT
+    // ==========================================
+
+    function updateLikeCountFromStorage() {
+
+        const storedLike =
+            sessionStorage.getItem(
+                'alphaInkLikeUpdate'
+            )
+
+        if (!storedLike) {
+            return
+        }
+
+
+        try {
+
+            const likeData =
+                JSON.parse(storedLike)
+
+
+            const likeCountElement =
+                document.querySelector(
+                    `.blog-like-count[data-blog-id="${likeData.blogId}"]`
+                )
+
+
+            if (likeCountElement) {
+
+                likeCountElement.innerHTML =
+                    `❤️ ${likeData.likes}`
+
+            }
+
+
+            // Remove the temporary update
+            sessionStorage.removeItem(
+                'alphaInkLikeUpdate'
+            )
+
+
+        } catch (error) {
+
+            console.log(
+                'Could not update like count:',
+                error
+            )
+
+            sessionStorage.removeItem(
+                'alphaInkLikeUpdate'
+            )
+
+        }
+
     }
 
-    function erase() {
-      if (charIndex > 0) {
-        typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
-        charIndex--;
-        setTimeout(erase, erasingDelay);
-      } else {
-        textArrayIndex++;
-        if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-        setTimeout(type, typingDelay + 400);
-      }
-    }
 
-    if (textArray.length && typedTextSpan) {
-      setTimeout(type, newTextDelay + 250);
-    }
-  });
+    // ==========================================
+    // RUN WHEN RETURNING TO BLOGS PAGE
+    // ==========================================
+
+    window.addEventListener(
+        'pageshow',
+        () => {
+            updateLikeCountFromStorage()
+        }
+    )
+
 </script>

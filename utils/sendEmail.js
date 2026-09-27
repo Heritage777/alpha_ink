@@ -7,7 +7,7 @@ const sendEmail = async (email, title, body) => {
     try {
 
         const { data, error } = await resend.emails.send({
-            from: 'Heritage Blog App <noreply@supremealpha.ng>',
+            from: 'Alpha_Ink <noreply@supremealpha.ng>',
             to: [email],
             subject: title,
             html: otpEmailTemplate(body)

@@ -89,7 +89,7 @@ const signup_post = async (req, res) => {
         // SEND THE OTP TO THE USER'S EMAIL
         await sendEmail(
             email,
-            'Heritage Blog App - OTP Verification',
+            'Alpha_Ink - OTP Verification',
             otp
         )
 

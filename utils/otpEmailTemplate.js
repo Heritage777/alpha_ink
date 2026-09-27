@@ -5,7 +5,7 @@ const otpEmailTemplate = (otp) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Heritage Blog - Email Verification</title>
+        <title>Alpha_Ink - Email Verification</title>
     </head>
 
     <body style="margin:0; padding:0; background-color:#080b12; font-family:Arial, Helvetica, sans-serif; color:#ffffff;">
@@ -18,7 +18,7 @@ const otpEmailTemplate = (otp) => {
                 <div style="background:#00ffff; padding:25px 20px; text-align:center;">
 
                     <h1 style="margin:0; font-size:24px; font-weight:800; color:#000000; letter-spacing:1px;">
-                        HERITAGE BLOG
+                        ALPHA_INK
                     </h1>
 
                     <p style="margin:8px 0 0; font-size:12px; color:#003333;">
@@ -35,7 +35,7 @@ const otpEmailTemplate = (otp) => {
                     </h2>
 
                     <p style="color:#aab5c5; font-size:15px; line-height:1.7; margin:0 0 20px;">
-                        Welcome to Heritage Blog! We're glad you're joining
+                        Welcome to Alpha_Ink! We're glad you're joining
                         our community of writers and readers.
                     </p>
 
@@ -82,12 +82,12 @@ const otpEmailTemplate = (otp) => {
                     <p style="margin:5px 0; color:#7f91a8; font-size:12px; line-height:1.6;">
                         Sent with care by
                         <span style="color:#00ffff; font-weight:bold;">
-                            Heritage Blog
+                            Alpha_Ink
                         </span>
                     </p>
 
                     <p style="margin:5px 0; color:#7f91a8; font-size:12px; line-height:1.6;">
-                        &copy; ${new Date().getFullYear()} Heritage Blog.
+                        &copy; ${new Date().getFullYear()} Alpha_Ink.
                         All rights reserved.
                     </p>
 

@@ -10,31 +10,75 @@
             </svg>
         </div>
 
-        <h2 class="form-heading">Edit Blog Post</h2>
-        <p class="form-subheading">Update your story details below</p>
-        
-        <form action="/blogs/edit/<%= blog._id %>" method="POST" novalidate>
-            <div class="form-group">
-                <label for="title">Blog Title</label>
-                <input type="text" id="title" name="title" value="<%= blog.title %>" autocomplete="off" required>
-            </div>
+    <h2 class="form-heading">Edit Blog Post</h2>
+    <p class="form-subheading">Update your story details below</p>
+    
+    <form action="/blogs/edit/<%= blog._id %>" method="POST" novalidate>
+        <div class="form-group">
+            <label for="title">Blog Title</label>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                value="<%= blog.title %>"
+                autocomplete="off"
+                required
+            >
+        </div>
 
-            <div class="form-group">
-                <label for="author">Author</label>
-                <input type="text" id="author" name="author" value="<%= blog.author %>" autocomplete="name" required>
-            </div>
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input
+                type="text"
+                id="author"
+                name="author"
+                value="<%= blog.author %>"
+                autocomplete="name"
+                required
+            >
+        </div>
 
-            <div class="form-group">
-                <label for="body">Blog Body</label>
-                <textarea id="body" name="body" rows="8" required><%= blog.body %></textarea>
-            </div>
+        <div class="form-group">
+            <label for="body">Blog Body</label>
+            <textarea
+                id="body"
+                name="body"
+                rows="8"
+                required
+            ><%= blog.body %></textarea>
+        </div>
 
-            <button type="submit" class="btn-submit">
-                <span class="button-text">Update Blog</span>
-                <span class="arrow">&rarr;</span>
-            </button>
-        </form>
-    </div>
+        <button
+            type="submit"
+            class="btn-submit"
+            id="updateBlogButton"
+            onclick="showUpdateLoading()"
+        >
+            <span class="button-text">Update Blog</span>
+
+            <span
+                class="button-spinner"
+                aria-hidden="true"
+            ></span>
+
+            <span class="arrow">&rarr;</span>
+        </button>
+    </form>
+</div>
+
 </div>
 
 <%- include('./partials/footer.ejs') %>
+
+<script>
+    function showUpdateLoading() {
+        const button = document.getElementById('updateBlogButton');
+        const text = button.querySelector('.button-text');
+        const arrow = button.querySelector('.arrow');
+
+        button.classList.add('is-loading');
+
+        text.textContent = 'Updating...';
+        arrow.style.display = 'none';
+    }
+</script>

@@ -3387,3 +3387,175 @@ body.dark .theme-toggle-btn .moon-icon {
         border-radius: 10px;
     }
 }
+
+
+
+
+
+
+
+
+/* LOADING STATE */
+/* =========================
+   LOADING SPINNER
+========================= */
+
+.spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Button loading state */
+
+button.is-loading {
+    opacity: 0.75;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* General page loading container */
+
+.page-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.page-loading .spinner {
+    border-color: var(--border-color);
+    border-top-color: var(--primary-purple);
+}
+
+
+/* =========================
+   LOGIN BUTTON LOADING STATE
+========================= */
+
+.btn-submit {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: opacity 0.2s ease,
+                background-color 0.2s ease;
+}
+
+/* Spinner hidden by default */
+.button-spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: loginSpin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+/* Show spinner while loading */
+.btn-submit.is-loading .button-spinner {
+    display: inline-block;
+}
+
+/* Disable button appearance */
+.btn-submit.is-loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Spinner animation */
+@keyframes loginSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-delete .button-spinner {
+    display: none;
+}
+
+.btn-delete.is-loading .button-spinner {
+    display: inline-block;
+}
+
+.btn-delete.is-loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+
+
+
+/* ==========================================
+   PAGINATION
+   ========================================== */
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 35px 0 20px;
+}
+
+
+.btn-view-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 12px 22px;
+
+    background: var(--primary-purple);
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.btn-view-more:hover {
+    background: var(--primary-purple-dark);
+    transform: translateY(-2px);
+}
+
+
+.btn-view-more span {
+    font-size: 18px;
+    line-height: 1;
+}

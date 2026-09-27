@@ -95,7 +95,7 @@ const resendOtp = async (req, res) => {
         // SEND THE NEW OTP TO THE USER
         await sendEmail(
             email,
-            'Heritage Blog App - New OTP',
+            'Alpha_Ink - New OTP',
             otp
         )
 
@@ -135,7 +135,7 @@ const forgotPassword = async (req, res) => {
 
         await sendEmail(
             email,
-            'Heritage Blog App - New OTP',
+            'Alpha_Ink - New OTP',
             otp
         )
         return res.status(200).json({
@@ -232,7 +232,7 @@ const resendResetOtp = async (req, res) => {
         await user.save()
         await sendEmail(
             email,
-            'Heritage Blog App - New OTP',
+            'Alpha_Ink - New OTP',
             otp
         )
 

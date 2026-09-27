@@ -1,19 +1,27 @@
-<%- include('partials/head') %> 
+
+<%- include('partials/head') %>
 <%- include('partials/nav') %>
 
 <div class="auth-wrapper">
+
   <!-- Left Side: Ambient Branding Panel -->
   <div class="auth-sidebar">
     <div class="brand-content">
       <div class="brand-badge">Alpha_Ink Portal</div>
+
       <h1>Welcome<br />Back</h1>
-      <p>Glad to see you again. Let's continue where you left off crafting your ideas.</p>
+
+      <p>
+        Glad to see you again. Let's continue where you
+        left off crafting your ideas.
+      </p>
     </div>
   </div>
 
   <!-- Right Side: Login Card Form -->
   <div class="auth-main">
     <div class="form-container">
+
       <div class="form-header-icon">
         <svg
           width="24"
@@ -28,12 +36,21 @@
       </div>
 
       <h2 class="form-heading">Login</h2>
-      <p class="form-subheading">Enter your credentials to access your account</p>
 
-      <form action="/login" method="POST" data-loading-text="Logging in..." novalidate>
-        
+      <p class="form-subheading">
+        Enter your credentials to access your account
+      </p>
+
+      <form
+        action="/login"
+        method="POST"
+        data-loading-text="Logging in..."
+        novalidate
+      >
+
         <div class="form-group">
           <label for="email">Email Address</label>
+
           <input
             type="email"
             name="email"
@@ -42,11 +59,13 @@
             autocomplete="email"
             required
           />
+
           <p class="error email"></p>
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
+
           <div class="password-wrapper">
             <input
               type="password"
@@ -57,21 +76,36 @@
               required
             />
           </div>
+
           <p class="error password"></p>
         </div>
 
         <div class="form-actions-inline">
-          <a href="/forgot-password" class="forgot-link">Forgot Password?</a>
-          <a href="/verify-email" class="forgot-link">Verify Email</a>
+          <a href="/forgot-password" class="forgot-link">
+            Forgot Password?
+          </a>
+
+          <a href="/verify-email" class="forgot-link">
+            Verify Email
+          </a>
         </div>
 
-        <button type="submit" class="btn-submit">
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="btn-submit"
+          id="loginButton"
+        >
           <span class="button-text">Login</span>
+
+          <span class="button-spinner" aria-hidden="true"></span>
+
           <span class="arrow">&rarr;</span>
         </button>
 
         <div class="auth-footer-text">
-          Don't have an account? <a href="/signup">Sign up</a>
+          Don't have an account?
+          <a href="/signup">Sign up</a>
         </div>
 
       </form>
@@ -83,58 +117,112 @@
 
 <script>
   const form = document.querySelector("form");
+
   const emailError = document.querySelector(".email.error");
   const passwordError = document.querySelector(".password.error");
 
-  const submitButton = form.querySelector('button[type="submit"]');
+  const submitButton = document.getElementById("loginButton");
   const buttonText = submitButton.querySelector(".button-text");
   const arrow = submitButton.querySelector(".arrow");
 
+  const originalButtonText = "Login";
+
+  // Show loading state
+  function showLoading() {
+    submitButton.disabled = true;
+
+    submitButton.classList.add("is-loading");
+
+    buttonText.textContent = "Logging in...";
+
+    arrow.style.display = "none";
+  }
+
+  // Restore button after a failed request
+  function hideLoading() {
+    submitButton.disabled = false;
+
+    submitButton.classList.remove("is-loading");
+
+    buttonText.textContent = originalButtonText;
+
+    arrow.style.display = "";
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Clear previous errors
     emailError.textContent = "";
     passwordError.textContent = "";
 
-    // Loading state
-    submitButton.disabled = true;
-    buttonText.textContent = "Logging in...";
-    arrow.style.display = "none";
-
-    const email = form.email.value;
+    const email = form.email.value.trim();
     const password = form.password.value;
+
+    // Prevent empty submissions
+    if (!email || !password) {
+      if (!email) {
+        emailError.textContent = "Please enter your email address.";
+      }
+
+      if (!password) {
+        passwordError.textContent = "Please enter your password.";
+      }
+
+      return;
+    }
+
+    // Start loading
+    showLoading();
 
     try {
       const result = await fetch("/login", {
         method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-Type": "application/json" },
+
+        body: JSON.stringify({
+          email,
+          password
+        }),
+
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
+
       const data = await result.json();
+
       console.log(data);
 
+      // Handle validation errors
       if (data.errors) {
-        emailError.textContent = data.errors.email;
-        passwordError.textContent = data.errors.password;
+        emailError.textContent = data.errors.email || "";
+        passwordError.textContent = data.errors.password || "";
       }
 
+      // Handle general login errors
       if (data.message) {
         emailError.textContent = data.message;
       }
+
+      // Successful login
       if (data.user) {
-        location.assign("/blogs");
+        buttonText.textContent = "Success! Redirecting...";
+
+        window.location.assign("/blogs");
+
+        return;
       }
 
-      // Restore button if login fails
-      submitButton.disabled = false;
-      buttonText.textContent = "Login";
-      arrow.style.display = "";
-    } catch (error) {
-      console.log(error);
+      // Login failed
+      hideLoading();
 
-      // Restore button if request fails
-      submitButton.disabled = false;
-      buttonText.textContent = "Login";
-      arrow.style.display = "";
+    } catch (error) {
+      console.error("Login request failed:", error);
+
+      emailError.textContent =
+        "Unable to connect. Please check your internet and try again.";
+
+      hideLoading();
     }
   });
 </script>
