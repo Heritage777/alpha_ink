@@ -65,11 +65,9 @@
     // COUNTDOWN
     let countdownSeconds = 5 * 60
     let countdownTimer
-
     const updateCountdown = () => {
         const minutes = Math.floor(countdownSeconds / 60)
         const seconds = countdownSeconds % 60
-
         countdownMessage.textContent = `You can request a new OTP in ${minutes}:${seconds.toString().padStart(2, '0')}`
     }
 
@@ -101,9 +99,7 @@
             input.value = input.value.replace(/\D/g, '')
 
             // Move to next box
-            if (input.value && index < otpInputs.length - 1) {
-                otpInputs[index + 1].focus()
-            }
+            if (input.value && index < otpInputs.length - 1) {otpInputs[index + 1].focus() }
         })
 
         // BACKSPACE
@@ -111,7 +107,6 @@
             if (e.key === 'Backspace') {
                 errorMessage.textContent = ''
                 resendMessage.textContent = ''
-
                 if (!input.value && index > 0) {
                     otpInputs[index - 1].focus()
                 }
@@ -131,7 +126,6 @@
 
         errorMessage.textContent = ''
         resendMessage.textContent = ''
-
         const email = form.email.value.trim()
 
         // Email validation

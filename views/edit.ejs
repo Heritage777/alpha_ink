@@ -3,6 +3,7 @@
 
 <div class="container main-content edit-blog-wrapper">
     <div class="form-container edit-blog-container">
+
         <div class="form-header-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -10,62 +11,35 @@
             </svg>
         </div>
 
-    <h2 class="form-heading">Edit Blog Post</h2>
-    <p class="form-subheading">Update your story details below</p>
-    
-    <form action="/blogs/edit/<%= blog._id %>" method="POST" novalidate>
-        <div class="form-group">
-            <label for="title">Blog Title</label>
-            <input
-                type="text"
-                id="title"
-                name="title"
-                value="<%= blog.title %>"
-                autocomplete="off"
-                required
-            >
-        </div>
+        <h2 class="form-heading">Edit Blog Post</h2>
+        <p class="form-subheading">Update your story details below</p>
 
-        <div class="form-group">
-            <label for="author">Author</label>
-            <input
-                type="text"
-                id="author"
-                name="author"
-                value="<%= blog.author %>"
-                autocomplete="name"
-                required
-            >
-        </div>
+        <form action="/blogs/edit/<%= blog._id %>" method="POST" novalidate>
 
-        <div class="form-group">
-            <label for="body">Blog Body</label>
-            <textarea
-                id="body"
-                name="body"
-                rows="8"
-                required
-            ><%= blog.body %></textarea>
-        </div>
+            <div class="form-group">
+                <label for="title">Blog Title</label>
+                <input type="text" id="title" name="title" value="<%= blog.title %>" autocomplete="off" required>
+            </div>
 
-        <button
-            type="submit"
-            class="btn-submit"
-            id="updateBlogButton"
-            onclick="showUpdateLoading()"
-        >
-            <span class="button-text">Update Blog</span>
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" value="<%= blog.author %>" autocomplete="name" required>
+            </div>
 
-            <span
-                class="button-spinner"
-                aria-hidden="true"
-            ></span>
+            <div class="form-group">
+                <label for="body">Blog Body</label>
+                <textarea id="body" name="body" rows="8" required><%= blog.body %></textarea>
+            </div>
 
-            <span class="arrow">&rarr;</span>
-        </button>
-    </form>
-</div>
+            <button type="submit" class="btn-submit" id="updateBlogButton" onclick="showUpdateLoading()">
+                <span class="button-text">Update Blog</span>
+                <span class="button-spinner" aria-hidden="true"></span>
+                <span class="arrow">&rarr;</span>
+            </button>
 
+        </form>
+
+    </div>
 </div>
 
 <%- include('./partials/footer.ejs') %>
@@ -75,9 +49,7 @@
         const button = document.getElementById('updateBlogButton');
         const text = button.querySelector('.button-text');
         const arrow = button.querySelector('.arrow');
-
         button.classList.add('is-loading');
-
         text.textContent = 'Updating...';
         arrow.style.display = 'none';
     }

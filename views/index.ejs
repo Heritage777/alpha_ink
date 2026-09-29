@@ -1,280 +1,81 @@
 <%- include('./partials/head') %>
 <%- include('./partials/nav') %>
 
-<div class="container main-content dashboard-wrapper">
-
-    <!-- Dashboard Header -->
-    <header class="page-header">
-
-        <!-- Logged-in User -->
-        <div class="dashboard-welcome">
-
-            <!-- Profile Avatar + Camera Edit Button -->
-            <div class="dashboard-avatar-wrapper">
-
-                <img
-                    src="<%= user.profilePicture && user.profilePicture.url
-                        ? user.profilePicture.url
-                        : 'https://i.pinimg.com/736x/0b/97/6f/0b976f0a7aa1aa43870e1812eee5a55d.jpg' %>"
-                    alt="<%= user.username %>"
-                    class="dashboard-avatar"
-                >
-
-                <a
-                    href="/profile"
-                    class="avatar-edit-btn"
-                    title="Change profile picture"
-                    aria-label="Change profile picture"
-                >
-                    <!-- Camera SVG Icon -->
-                   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    width="20"
-    height="20"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
->
-    <path d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a48 48 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.19 2.19 0 0 0-1.736-1.039 49 49 0 0 0-5.232 0 2.19 2.19 0 0 0-1.736 1.039z"/>
-    
-    <path d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"/>
-    
-    <path d="M18.75 10.5h.008v.008h-.008z"/>
-</svg>
-                </a>
-
-            </div>
-
-            <div class="welcome-text">
-
-                <h2>
-                    Welcome back,
-                    <span><%= user.username %></span>
-                </h2>
-
-                <p class="welcome-subtitle">
-                    Your space. Your voice. Your ideas.
-                </p>
-
-            </div>
-
+<div class="auth-wrapper">
+    <!-- Left Side: Ambient Branding Panel -->
+    <div class="auth-sidebar">
+        <div class="brand-content">
+            <div class="brand-badge">Alpha_Ink Portal</div>
+            <h1>Welcome<br />Back</h1>
+            <p> Glad to see you again. Let's continue where you left off crafting your ideas.</p>
         </div>
-
-        <h1 class="typewriter-header">
-            <span class="typed-text"></span>
-            <span class="cursor"></span>
-        </h1>
-
-    </header>
-
-
-    <!-- Blog Feed -->
-    <div class="scrollable-feed-container">
-
-        <div class="blog-grid">
-
-            <% if (blogs && blogs.length > 0) { %>
-
-                <% blogs.forEach(blog => { %>
-
-                    <article class="blog-card">
-
-                        <!-- Blog Image -->
-                        <div class="blog-image">
-
-                            <img
-                                src="<%= blog.image && blog.image.url
-                                    ? blog.image.url
-                                    : 'https://i.pinimg.com/1200x/6d/f3/c0/6df3c08ce44558439ac6787b68553eb3.jpg' %>"
-                                alt="<%= blog.title %>"
-                                loading="lazy"
-                            >
-
-                        </div>
-
-
-                        <!-- Blog Information -->
-                        <div class="card-body">
-
-                            <!-- TITLE -->
-                            <div class="card-field">
-
-                                <span class="field-label">
-                                    Title:
-                                </span>
-
-                                <h3 class="card-title">
-                                    <%= blog.title %>
-                                </h3>
-
-                            </div>
-
-
-                            <!-- AUTHOR -->
-                            <div class="card-field">
-
-                                <span class="field-label">
-                                    Author:
-                                </span>
-
-                                <div class="card-author-info">
-
-                                    <img
-                                        src="<%= blog.owner &&
-                                            blog.owner.profilePicture &&
-                                            blog.owner.profilePicture.url
-                                                ? blog.owner.profilePicture.url
-                                                : 'https://i.pinimg.com/736x/c8/69/6d/c8696d617c52cb74432cda04bde12fdd.jpg' %>"
-                                        alt="<%= blog.owner
-                                            ? blog.owner.username
-                                            : blog.author %>"
-                                        class="blog-author-avatar"
-                                        loading="lazy"
-                                    >
-
-                                    <span class="card-author">
-                                        <%= blog.owner
-                                            ? blog.owner.username
-                                            : blog.author %>
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- SNIPPET -->
-                            <div class="card-field">
-
-                                <span class="field-label">
-                                    Snippet:
-                                </span>
-
-                                <p class="card-text">
-                                    <%= blog.snippet %>
-                                </p>
-
-                            </div>
-
-
-                            <!-- DATE + STATS -->
-                            <div class="card-meta-bottom">
-
-                                <span class="blog-date">
-                                    <%= blog.createdAt
-                                        ? blog.createdAt.toDateString()
-                                        : 'Date unavailable' %>
-                                </span>
-
-                                <div class="blog-stats">
-
-                                    <!-- LIKE COUNT -->
-                                    <span
-                                        class="blog-like-count"
-                                        data-blog-id="<%= blog._id %>"
-                                    >
-                                        ❤️
-                                        <%= blog.likes
-                                            ? blog.likes.length
-                                            : 0 %>
-                                    </span>
-
-
-                                    <!-- COMMENT COUNT -->
-                                    <span>
-                                        💬
-                                        <%= commentCounts &&
-                                            commentCounts[blog._id.toString()]
-                                                ? commentCounts[blog._id.toString()]
-                                                : 0 %>
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- READ ARTICLE -->
-                            <a
-                                href="/blogs/<%= blog._id %>"
-                                class="btn-read"
-                            >
-                                Read Article &rarr;
-                            </a>
-
-                        </div>
-
-                    </article>
-
-                <% }) %>
-
-
-            <% } else { %>
-
-                <!-- Empty State -->
-                <div class="no-blogs-card">
-
-                    <h3>
-                        No articles yet
-                    </h3>
-
-                    <p>
-                        No articles have been published on the
-                        network yet. Be the first to share your ideas.
-                    </p>
-
-                    <a
-                        href="/create"
-                        class="btn-primary"
-                    >
-                        Create First Post
-                    </a>
-
-                </div>
-
-            <% } %>
-
-        </div>
-
     </div>
 
-    <!-- PAGINATION -->
-    <% if (hasNextPage) { %>
+    <!-- Right Side: Login Card Form -->
+    <div class="auth-main">
+        <div class="form-container">
 
-        <div class="pagination-container">
+            <div class="form-header-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5-10 5v10l10 5 10-5" />
+                </svg>
+            </div>
 
-            <a
-                href="/blogs?page=<%= currentPage + 1 %>"
-                class="btn-view-more"
-            >
-                View More Articles
-                <span>&rarr;</span>
-            </a>
+            <h2 class="form-heading">Login</h2>
+            <p class="form-subheading"> Enter your credentials to access your account </p>
 
+            <form action="/login" method="POST" data-loading-text="Logging in..." novalidate>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+                    <p class="error email"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+                    </div>
+
+                    <p class="error password"></p>
+                </div>
+
+                <div class="form-actions-inline">
+                    <a href="/forgot-password" class="forgot-link">Forgot Password?</a>
+                    <a href="/verify-email" class="forgot-link">Verify Email</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit" id="loginButton">
+                    <span class="button-text">Login</span>
+                    <span class="button-spinner" aria-hidden="true"></span>
+                    <span class="arrow">&rarr;</span>
+                </button>
+
+                <div class="auth-footer-text">
+                    Don't have an account?
+                    <a href="/signup">Sign up</a>
+                </div>
+
+            </form>
         </div>
+    </div>
 
-    <% } %>
 </div>
-
 
 <%- include('./partials/footer') %>
 
-
 <style>
     /* Typewriter Header Styles */
-
     .typewriter-header {
         min-height: 1.4em;
         display: inline-block;
     }
-
     .typed-text {
         font-weight: inherit;
     }
-
     .cursor {
         display: inline-block;
         background-color: currentColor;
@@ -282,7 +83,6 @@
         width: 3px;
         animation: blink 0.8s infinite;
     }
-
     @keyframes blink {
         0%, 100% {
             opacity: 1;
@@ -294,158 +94,65 @@
     }
 </style>
 
-
 <script>
-
-    // ==========================================
-    // DASHBOARD TYPEWRITER EFFECT SCRIPT
-    // ==========================================
-
     document.addEventListener("DOMContentLoaded", () => {
-
-        const typedTextSpan =
-            document.querySelector(".page-header .typed-text")
-
+        const typedTextSpan = document.querySelector(".page-header .typed-text")
         const textArray = [
             "Share your thoughts...",
             "Display your genius...",
             "Craft your ideas."
         ]
-
         const typingDelay = 60
         const erasingDelay = 35
         const newTextDelay = 1500
-
         let textArrayIndex = 0
         let charIndex = 0
-
-
+       
         function type() {
-
             if (charIndex < textArray[textArrayIndex].length) {
-
-                typedTextSpan.textContent +=
-                    textArray[textArrayIndex].charAt(charIndex)
-
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex)
                 charIndex++
-
                 setTimeout(type, typingDelay)
-
-            } else {
-
-                setTimeout(erase, newTextDelay)
-
-            }
+            } else { setTimeout(erase, newTextDelay) }
         }
-
 
         function erase() {
-
             if (charIndex > 0) {
-
-                typedTextSpan.textContent =
-                    textArray[textArrayIndex].substring(
-                        0,
-                        charIndex - 1
-                    )
-
+                typedTextSpan.textContent = textArray[textArrayIndex].substring( 0, charIndex - 1 )
                 charIndex--
-
                 setTimeout(erase, erasingDelay)
-
             } else {
-
                 textArrayIndex++
-
-                if (textArrayIndex >= textArray.length) {
-                    textArrayIndex = 0
-                }
-
+                if (textArrayIndex >= textArray.length) { textArrayIndex = 0 }
                 setTimeout(type, typingDelay + 400)
-
             }
         }
-
-
         if (textArray.length && typedTextSpan) {
-
-            setTimeout(
-                type,
-                newTextDelay + 250
-            )
-
+            setTimeout( type, newTextDelay + 250 )
         }
-
     })
 
-
-    // ==========================================
     // UPDATE LIKE COUNT
-    // ==========================================
-
     function updateLikeCountFromStorage() {
-
-        const storedLike =
-            sessionStorage.getItem(
-                'alphaInkLikeUpdate'
-            )
-
-        if (!storedLike) {
-            return
-        }
-
-
+        const storedLike = sessionStorage.getItem( 'alphaInkLikeUpdate' )
+        if (!storedLike) {return}
         try {
-
-            const likeData =
-                JSON.parse(storedLike)
-
-
-            const likeCountElement =
-                document.querySelector(
-                    `.blog-like-count[data-blog-id="${likeData.blogId}"]`
-                )
-
-
+            const likeData = JSON.parse(storedLike)
+            const likeCountElement = document.querySelector( `.blog-like-count[data-blog-id="${likeData.blogId}"]`)
             if (likeCountElement) {
-
-                likeCountElement.innerHTML =
-                    `❤️ ${likeData.likes}`
-
+                likeCountElement.innerHTML = `❤️ ${likeData.likes}`
             }
-
-
             // Remove the temporary update
-            sessionStorage.removeItem(
-                'alphaInkLikeUpdate'
-            )
-
+            sessionStorage.removeItem( 'alphaInkLikeUpdate' )
 
         } catch (error) {
-
-            console.log(
-                'Could not update like count:',
-                error
-            )
-
-            sessionStorage.removeItem(
-                'alphaInkLikeUpdate'
-            )
+            console.log('Could not update like count:', error )
+            sessionStorage.removeItem( 'alphaInkLikeUpdate')
 
         }
 
     }
 
-
-    // ==========================================
     // RUN WHEN RETURNING TO BLOGS PAGE
-    // ==========================================
-
-    window.addEventListener(
-        'pageshow',
-        () => {
-            updateLikeCountFromStorage()
-        }
-    )
-
+    window.addEventListener( 'pageshow', () => { updateLikeCountFromStorage()} )
 </script>

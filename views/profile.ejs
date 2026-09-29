@@ -3,140 +3,82 @@
 
 <div class="container main-content profile-page-wrapper">
     <div class="profile-card">
+
         <div class="profile-header-section">
             <div class="profile-avatar-container">
                 <% if (user.profilePicture && user.profilePicture.url) { %>
-                    <img
-                        src="<%= user.profilePicture.url %>"
-                        alt="Profile picture"
-                        class="profile-avatar-img"
-                    >
+                    <img src="<%= user.profilePicture.url %>" alt="Profile picture" class="profile-avatar-img">
                 <% } else { %>
-                    <img
-                        src="https://i.pinimg.com/736x/b8/d4/9b/b8d49b88ebb79c9187d82cc8f0fe4e3a.jpg"
-                        alt="Default profile picture"
-                        class="profile-avatar-img"
-                    >
+                    <img src="https://i.pinimg.com/736x/b8/d4/9b/b8d49b88ebb79c9187d82cc8f0fe4e3a.jpg" alt="Default profile picture" class="profile-avatar-img">
                 <% } %>
             </div>
 
-        <div class="profile-user-info">
-            <h1 class="form-heading"><%= user.username %></h1>
-            <p class="profile-email"><%= user.email %></p>
-        </div>
-    </div>
-
-    <% if (user.profilePicture && user.profilePicture.url) { %>
-        <div class="profile-action-row">
-            <form action="/profile/delete" method="POST">
-                <button type="submit" class="btn-delete-picture">
-                    Delete Current Picture
-                </button>
-            </form>
-        </div>
-    <% } %>
-
-    <!-- Theme Toggle Preference Row -->
-    <div class="profile-preference-section">
-        <div class="preference-info">
-            <h3 class="upload-section-title">Appearance</h3>
-            <p class="preference-desc">
-                Switch between light and dark themes
-            </p>
+            <div class="profile-user-info">
+                <h1 class="form-heading"><%= user.username %></h1>
+                <p class="profile-email"><%= user.email %></p>
+            </div>
         </div>
 
-        <button
-            id="theme-toggle"
-            class="theme-toggle-btn"
-            aria-label="Toggle theme"
-            title="Switch Theme"
-        >
-            <!-- Sun Icon -->
-            <svg
-                class="sun-icon"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-            >
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1.64" y1="12" x2="3.64" y2="12"></line>
-                <line x1="20.36" y1="12" x2="22.36" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
+        <% if (user.profilePicture && user.profilePicture.url) { %>
+            <div class="profile-action-row">
+                <form action="/profile/delete" method="POST">
+                    <button type="submit" class="btn-delete-picture">Delete Current Picture</button>
+                </form>
+            </div>
+        <% } %>
 
-            <!-- Moon Icon -->
-            <svg
-                class="moon-icon"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-            >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Profile Picture Upload -->
-    <div class="profile-upload-section">
-        <h3 class="upload-section-title">
-            <%= user.profilePicture && user.profilePicture.url
-                ? 'Change Profile Picture'
-                : 'Upload Profile Picture'
-            %>
-        </h3>
-
-        <form
-            action="/profile/upload"
-            method="POST"
-            enctype="multipart/form-data"
-            class="upload-form"
-            id="profileUploadForm"
-        >
-            <div class="file-input-wrapper">
-                <input
-                    type="file"
-                    name="image"
-                    accept=".jpg,.jpeg,.png"
-                    required
-                    id="profileImageInput"
-                >
+        <!-- Theme Toggle Preference Row -->
+        <div class="profile-preference-section">
+            <div class="preference-info">
+                <h3 class="upload-section-title">Appearance</h3>
+                <p class="preference-desc">Switch between light and dark themes</p>
             </div>
 
-            <button
-                type="submit"
-                class="btn-submit"
-                id="profileUploadButton"
-            >
-                <span class="button-text">
-                    <%= user.profilePicture && user.profilePicture.url
-                        ? 'Change Picture'
-                        : 'Upload Picture'
-                    %>
-                </span>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle theme" title="Switch Theme">
 
-                <span
-                    class="button-spinner"
-                    aria-hidden="true"
-                ></span>
+                <!-- Sun Icon -->
+                <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1.64" y1="12" x2="3.64" y2="12"></line>
+                    <line x1="20.36" y1="12" x2="22.36" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
 
-                <span class="arrow">&rarr;</span>
+                <!-- Moon Icon -->
+                <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+
             </button>
-        </form>
+        </div>
+
+        <!-- Profile Picture Upload -->
+        <div class="profile-upload-section">
+            <h3 class="upload-section-title">
+                <%= user.profilePicture && user.profilePicture.url ? 'Change Profile Picture' : 'Upload Profile Picture' %>
+            </h3>
+
+            <form action="/profile/upload" method="POST" enctype="multipart/form-data" class="upload-form" id="profileUploadForm">
+
+                <div class="file-input-wrapper">
+                    <input type="file" name="image" accept=".jpg,.jpeg,.png" required id="profileImageInput">
+                </div>
+
+                <button type="submit" class="btn-submit" id="profileUploadButton">
+                    <span class="button-text"><%= user.profilePicture && user.profilePicture.url ? 'Change Picture' : 'Upload Picture' %></span>
+                    <span class="button-spinner" aria-hidden="true"></span>
+                    <span class="arrow">&rarr;</span>
+                </button>
+
+            </form>
+        </div>
+
     </div>
-</div>
-
-
 </div>
 
 <%- include('partials/footer') %>
@@ -145,7 +87,6 @@
     const uploadForm = document.getElementById('profileUploadForm');
     const uploadButton = document.getElementById('profileUploadButton');
     const imageInput = document.getElementById('profileImageInput');
-
     const buttonText = uploadButton.querySelector('.button-text');
     const arrow = uploadButton.querySelector('.arrow');
 
@@ -159,7 +100,6 @@
         // Show loading state
         uploadButton.disabled = true;
         uploadButton.classList.add('is-loading');
-
         buttonText.textContent = 'Uploading...';
         arrow.style.display = 'none';
     });

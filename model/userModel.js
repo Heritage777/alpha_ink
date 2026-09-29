@@ -22,7 +22,6 @@ userSchema.pre('save', async function (){
     console.log('password is hashed before user is created', this)
 })
 
-
 //STATIC LOGIN METHOD
 userSchema.statics.login = async function(email, password){
     const user = await this.findOne({email})

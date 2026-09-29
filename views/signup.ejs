@@ -8,9 +8,7 @@
     <div class="auth-sidebar">
         <div class="brand-content">
             <div class="brand-badge">Alpha_Ink Portal</div>
-
             <h1>Join Our<br>Community</h1>
-
             <p>
                 Create an account to start sharing your stories
                 and engaging with other writers.
@@ -23,14 +21,7 @@
         <div class="form-container">
 
             <div class="form-header-icon">
-                <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                     <circle cx="8.5" cy="7" r="4"></circle>
                     <line x1="20" y1="8" x2="20" y2="14"></line>
@@ -40,87 +31,38 @@
 
             <h2 class="form-heading">Sign Up</h2>
 
-            <p class="form-subheading">
-                Create your account to get started
-            </p>
+            <p class="form-subheading">Create your account to get started</p>
 
             <form action="/signup" method="POST" novalidate>
 
                 <div class="form-group">
                     <label for="username">Username</label>
-
-                    <input
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder="Enter your username"
-                        autocomplete="username"
-                        required
-                    />
-
+                    <input type="text" name="username" id="username" placeholder="Enter your username" autocomplete="username" required />
                     <p class="error username"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    />
-
+                    <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email" required />
                     <p class="error email"></p>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="••••••••"
-                        autocomplete="new-password"
-                        required
-                    />
-
+                    <input type="password" name="password" id="password" placeholder="••••••••" autocomplete="new-password" required />
                     <p class="error password"></p>
                 </div>
 
                 <div class="form-group">
-                    <label for="passwordConfirm">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        name="passwordConfirm"
-                        id="passwordConfirm"
-                        placeholder="••••••••"
-                        autocomplete="new-password"
-                        required
-                    />
-
+                    <label for="passwordConfirm">Confirm Password</label>
+                    <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="••••••••" autocomplete="new-password" required />
                     <p class="error passwordConfirm"></p>
                 </div>
 
                 <!-- Submit Button -->
-                <button
-                    type="submit"
-                    class="btn-submit"
-                    id="signupButton"
-                >
+                <button type="submit" class="btn-submit" id="signupButton">
                     <span class="button-text">Create Account</span>
-
-                    <span
-                        class="button-spinner"
-                        aria-hidden="true"
-                    ></span>
-
+                    <span class="button-spinner" aria-hidden="true"></span>
                     <span class="arrow">&rarr;</span>
                 </button>
 
@@ -138,45 +80,33 @@
 
 <script>
     const form = document.querySelector('form');
-
     const emailError = document.querySelector('.email.error');
     const passwordError = document.querySelector('.password.error');
-    const passwordConfirmError =
-        document.querySelector('.passwordConfirm.error');
+    const passwordConfirmError = document.querySelector('.passwordConfirm.error');
     const usernameError = document.querySelector('.username.error');
-
     const submitButton = document.getElementById('signupButton');
-
     const buttonText = submitButton.querySelector('.button-text');
     const arrow = submitButton.querySelector('.arrow');
-
     const originalButtonText = 'Create Account';
 
     // Show loading state
     function showLoading() {
         submitButton.disabled = true;
-
         submitButton.classList.add('is-loading');
-
         buttonText.textContent = 'Creating account...';
-
         arrow.style.display = 'none';
     }
 
     // Restore button after a failed request
     function hideLoading() {
         submitButton.disabled = false;
-
         submitButton.classList.remove('is-loading');
-
         buttonText.textContent = originalButtonText;
-
         arrow.style.display = '';
     }
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         // Clear previous errors
         emailError.textContent = '';
         passwordError.textContent = '';
@@ -190,74 +120,37 @@
 
         // Basic frontend validation
         if (!username || !email || !password || !passwordConfirm) {
-
-            if (!username) {
-                usernameError.textContent =
-                    'Please enter a username.';
-            }
-
-            if (!email) {
-                emailError.textContent =
-                    'Please enter your email address.';
-            }
-
-            if (!password) {
-                passwordError.textContent =
-                    'Please enter a password.';
-            }
-
-            if (!passwordConfirm) {
-                passwordConfirmError.textContent =
-                    'Please confirm your password.';
-            }
-
+            if (!username) { usernameError.textContent = 'Please enter a username.'}
+            if (!email) { emailError.textContent = 'Please enter your email address.' }
+            if (!password) { passwordError.textContent = 'Please enter a password.' }
+            if (!passwordConfirm) { passwordConfirmError.textContent = 'Please confirm your password.' }
             return;
         }
 
         // Start loading
         showLoading();
-
         try {
             const result = await fetch('/signup', {
                 method: 'POST',
-
-                body: JSON.stringify({
-                    username,
-                    email,
-                    password,
-                    passwordConfirm
-                }),
-
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                body: JSON.stringify({ username, email, password, passwordConfirm }),
+                headers: { 'Content-Type': 'application/json' }
             });
 
             const data = await result.json();
-
             console.log(data);
 
             // Handle validation errors
             if (data.errors) {
-                usernameError.textContent =
-                    data.errors.username || '';
-
-                emailError.textContent =
-                    data.errors.email || '';
-
-                passwordError.textContent =
-                    data.errors.password || '';
-
-                passwordConfirmError.textContent =
-                    data.errors.passwordConfirm || '';
+                usernameError.textContent = data.errors.username || '';
+                emailError.textContent = data.errors.email || '';
+                passwordError.textContent = data.errors.password || '';
+                passwordConfirmError.textContent = data.errors.passwordConfirm || '';
             }
 
             // Successful signup
             if (data.success) {
                 buttonText.textContent = 'Account created!';
-
                 window.location.assign(data.redirect);
-
                 return;
             }
 
@@ -266,10 +159,7 @@
 
         } catch (error) {
             console.error('Signup request failed:', error);
-
-            emailError.textContent =
-                'Unable to connect. Please check your internet and try again.';
-
+            emailError.textContent = 'Unable to connect. Please check your internet and try again.';
             hideLoading();
         }
     });

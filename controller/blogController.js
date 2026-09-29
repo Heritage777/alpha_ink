@@ -9,96 +9,31 @@ const blog_landing = (req, res) => {
 
 const blog_homepage = async (req, res) => {
     try {
-
-        // ==========================================
-        // GET BLOGS
-        // ==========================================
-
-        const page =
-            parseInt(req.query.page) || 1
-
+        const page = parseInt(req.query.page) || 1
         const limit = 6
-
-        const skip =
-            (page - 1) * limit
-
-
+        const skip = (page - 1) * limit
         const blogs = await Blog.find()
-            .populate(
-                'owner',
-                'username profilePicture'
-            )
-            .sort({
-                createdAt: -1
-            })
-            .skip(skip)
-            .limit(limit)
-
-
-        // ==========================================
-        // TOTAL BLOGS
-        // ==========================================
-
-        const totalBlogs =
-            await Blog.countDocuments()
-
-        const totalPages =
-            Math.ceil(totalBlogs / limit)
-
-        const hasNextPage =
-            page < totalPages
-
-
-        // ==========================================
-        // COMMENT COUNTS
-        // ==========================================
-
+        .populate('owner', 'username profilePicture')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        const totalBlogs = await Blog.countDocuments()
+        const totalPages = Math.ceil(totalBlogs / limit)
+        const hasNextPage = page < totalPages
         const commentCounts = {}
 
         for (const blog of blogs) {
-
-            const count =
-                await Comment.countDocuments({
-                    blog: blog._id
-                })
-
-            commentCounts[
-                blog._id.toString()
-            ] = count
-
+        const count = await Comment.countDocuments({ blog: blog._id })
+        commentCounts[ blog._id.toString() ] = count
         }
-
-
-        // ==========================================
-        // RENDER
-        // ==========================================
-
-        res.render('index', {
-
-            blogs,
-
-            // Get the logged-in user from checkUser
-            user: res.locals.user,
-
-            commentCounts,
-
-            currentPage: page,
-
-            totalPages,
-
-            hasNextPage
-
-        })
-
+        res.render('index', { blogs, user: res.locals.user, commentCounts, currentPage: page, totalPages, hasNextPage})
 
     } catch (err) {
-
         console.log(err)
-
         res.status(500).render('404')
-
     }
 }
+
 const blog_details = async (req, res) => {
     const id = req.params.id
 
@@ -135,43 +70,19 @@ const blog_create_get = (req, res) => {
 }
 
 const blog_create_post = async (req, res) => {
-
     try {
+        let image = { url: '/images/default-blog.jpg', public_id: null }
 
-        let image = {
-            url: '/images/default-blog.jpg',
-            public_id: null
-        }
-
-        // Upload image to Cloudinary if one was selected
         if (req.file) {
-
             const result = await new Promise((resolve, reject) => {
-
-                const uploadStream = cloudinary.uploader.upload_stream(
-                    {
-                        folder: 'heritage-blog'
-                    },
-
-                    (error, result) => {
-
-                        if (error) {
-                            reject(error)
-                        } else {
-                            resolve(result)
-                        }
-
-                    }
-                )
-
-                uploadStream.end(req.file.buffer)
-
-            })
-
-            image = {
-                url: result.secure_url,
-                public_id: result.public_id
-            }
+            const uploadStream = cloudinary.uploader.upload_stream({ folder: 'heritage-blog'},
+            (error, result) => {
+            if (error) {reject(error)} 
+            else {resolve(result)}
+        })
+        uploadStream.end(req.file.buffer)
+        })
+        image = { url: result.secure_url, public_id: result.public_id }
         }
 
         const blog = new Blog({
@@ -179,23 +90,15 @@ const blog_create_post = async (req, res) => {
             snippet: req.body.snippet,
             author: req.body.author,
             body: req.body.body,
-
             owner: req.user.id,
-
             image: image
         })
-
         await blog.save()
-
         res.redirect('/blogs')
 
     } catch (err) {
-
         console.log('BLOG CREATE ERROR:', err)
-
-        res.status(500).send(
-            'Could not save the blog post.'
-        )
+        res.status(500).send( 'Could not save the blog post.' )
     }
 }
 
@@ -272,45 +175,20 @@ const blog_like = async (req, res) => {
     try {
         const id = req.params.id
         const userId = req.user.id
-
         const blog = await Blog.findById(id)
-
-        if (!blog) {
-            return res.status(404).json({
-                error: 'Blog not found'
-            })
-        }
-
-        // Make sure likes exists
-        if (!Array.isArray(blog.likes)) {
-            blog.likes = []
-        }
-
-        const alreadyLiked = blog.likes.some(
-            like => like.toString() === userId
-        )
-
-        if (alreadyLiked) {
-            blog.likes = blog.likes.filter(
-                like => like.toString() !== userId
-            )
-        } else {
-            blog.likes.push(userId)
-        }
+        if (!blog) { return res.status(404).json({ error: 'Blog not found' }) }
+        if (!Array.isArray(blog.likes)) { blog.likes = []}
+        const alreadyLiked = blog.likes.some( like => like.toString() === userId )
+        if (alreadyLiked) { blog.likes = blog.likes.filter( like => like.toString() !== userId ) } 
+        else { blog.likes.push(userId) }
 
         await blog.save()
 
-        res.json({
-            liked: !alreadyLiked,
-            likes: blog.likes.length
-        })
+        res.json({ liked: !alreadyLiked, likes: blog.likes.length })
 
     } catch (err) {
         console.log('BLOG LIKE ERROR:', err)
-
-        res.status(500).json({
-            error: 'Could not like the blog'
-        })
+        res.status(500).json({ error: 'Could not like the blog' })
     }
 }
 
@@ -320,17 +198,11 @@ const blog_comment = async (req, res) => {
         const { text } = req.body
 
         if (!text || !text.trim()) {
-            return res.status(400).json({
-                error: 'Comment cannot be empty'
-            })
+            return res.status(400).json({ error: 'Comment cannot be empty' })
         }
-
         const blog = await Blog.findById(id)
-
         if (!blog) {
-            return res.status(404).json({
-                error: 'Blog not found'
-            })
+            return res.status(404).json({ error: 'Blog not found' })
         }
 
         const comment = new Comment({
@@ -340,16 +212,11 @@ const blog_comment = async (req, res) => {
         })
 
         await comment.save()
-
-        res.json({
-            success: true
-        })
+        res.json({ success: true })
 
     } catch (err) {
         console.log(err)
-        res.status(500).json({
-            error: 'Could not add comment'
-        })
+        res.status(500).json({ error: 'Could not add comment' })
     }
 }
 

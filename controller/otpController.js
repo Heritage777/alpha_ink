@@ -133,11 +133,7 @@ const forgotPassword = async (req, res) => {
         user.resetOtpExpires = new Date(Date.now() + 5 * 60 * 1000)
         await user.save()
 
-        await sendEmail(
-            email,
-            'Alpha_Ink - New OTP',
-            otp
-        )
+        await sendEmail( email, 'Alpha_Ink - New OTP', otp )
         return res.status(200).json({
             success: true,
             message: 'Password reset OTP sent successfully',

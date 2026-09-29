@@ -14,12 +14,12 @@ const handleErrors = (err)=>{
 
     if (err.message === 'Incorrect email') {
         errors.email = 'That email is not registered';
-        return errors; // <-- Add return here!
+        return errors; 
     }
 
     if (err.message === 'Incorrect password') {
         errors.password = 'That password is incorrect';
-        return errors; // <-- Add return here!
+        return errors;
     }
 
     if (err.code === 11000) {
@@ -106,7 +106,6 @@ const signup_post = async (req, res) => {
         res.status(400).json({ errors })
     }
 }
-
 
 const login_post = async (req, res) => {
     const { email, password } = req.body
